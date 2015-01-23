@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />
+		<link rel="stylesheet" type="text/css" href="http://cdn.amazeui.org/amazeui/2.1.0/css/amazeui.min.css" />
+		<title></title>
+		<style>
+			body {
+				padding-bottom: 40px;
+				padding-top: 40px;
+				background-color: #EEE;
+			}
+			.am-form {
+				margin: 0 auto;
+				max-width: 330px;
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="am-g">
+			<div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+				<form method="post" class="am-form">
+					<div class="am-form-group">
+						<input class="am-form-field" type="text" name="email" id="email" value="" placeholder="顾客邮箱">
+					</div>
+					<br>
+					<div class="am-form-group">
+						<input class="am-form-field" type="password" name="password" id="password" value="" placeholder="商家密码">
+					</div>
+					<br>
+					<div class="am-form-group">
+						<input type="submit" id="submit" value="提交" class="am-btn am-btn-danger am-btn-block">
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script src="/static/js/util.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('form').submit(function() {
+					data = $('form').serialize();
+					data = data + '&csrfmiddlewaretoken=' + getCookie('csrftoken');
+					$.ajax({
+						dataType: "json",
+						type: "POST",
+						url: '/coupon/verfy_business/',
+						data: data,
+						beforeSend: function(XMLHttpRequest) {
+							$('#submit').attr('disabled', 'disabled')
+						},
+						complete: function(XMLHttpRequest, textStatus) {
+							$('#submit').removeAttr("disabled");
+						},
+						success: function(data, textStatus) {
+							if (data.result == 'success') {
+								window.location.href = data.url
+							} else {
+								alert(data.error_message)
+							}
+						},
+						error: function(response) {
+							alert('网络异常!')
+						},
+
+					});
+					return false;
+				});
+			})
+
+			function checkEmail(str) {
+				var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+				if (re.test(str)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			$("#email").blur(function() {
+				var email = $(this).val();
+				if (checkEmail(email)) {
+					$(this).parent().addClass('am-form-success');
+				}else{
+					$(this).parent().addClass('am-form-error');
+				}
+			});
+			$('#password').blur(function(){
+				if($(this).val().length<=0){
+					$(this).parent().addClass('am-form-error');
+				}
+			});
+		</script>
+	</body>
+
+</html>

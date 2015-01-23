@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name='HandheldFriendly' content='True' />
+		<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />
+		<meta name='viewport' content='user-scalable=0' />
+		<link rel="stylesheet" type="text/css" href="http://cdn.amazeui.org/amazeui/2.1.0/css/amazeui.min.css" />
+		<meta name="viewport" content="width=device-width" />
+		<title>刮刮卡</title>
+
+		<style type="text/css">
+			body {
+				background-color: #C0392B;
+			}
+			#redux {
+				position: absolute;
+				height: 150px;
+				z-index: 1;
+			}
+			#robot {
+				margin: 0 auto;
+				height: 150px;
+				width: 300px;
+			}
+			.robot-text {
+				text-align: center;
+				padding-top: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="am-g">
+			<div class="am-u-sm-12">
+				<div class="am-panel am-panel-danger">
+					<div class="am-panel-hd">
+						<h3 class="am-panel-title">刮刮卡X<span id="count"></span></h3>
+					</div>
+					<div class="am-panel-bd">
+						<div id="robot">
+							<img id="redux" src="/static/img/redux.png" />
+							<div class="robot-text am-text-danger am-text-xxl"><span id="price"></span>元优惠券</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="am-g">
+			<div class="am-u-sm-12">
+				<div class="am-panel am-panel-danger">
+					<div class="am-panel-hd">
+						<h3 class="am-panel-title">活动说明</h3>
+					</div>
+					<div class="am-panel-bd">
+						<p>
+							1....
+							<br /> 2....
+							<br /> 3....
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+			<div class="am-modal-dialog">
+				<div class="am-modal-hd">请输入兑奖信息</div>
+				<div class="am-modal-bd">
+					<div class="am-form-group">
+						<input id="{{type}}" type="text" class="am-modal-prompt-input am-form-field" placeholder="">
+					</div>
+				</div>
+				<div class="am-modal-footer">
+					<span class="am-modal-btn" data-am-modal-confirm style="color:#dd514c">提交</span>
+				</div>
+			</div>
+		</div>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<script src="http://cdn.amazeui.org/amazeui/2.1.0/js/amazeui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src='/static/js/jquery.eraser.js' type='text/javascript'></script>
+		<script type="text/javascript">
+			addEventListener("load", init, false);
+			function init(event) {
+				$("#redux").eraser();
+			}
+			
+			var type = '{{type}}';
+			var InputObj = $('#{{type}}');
+			if(type == 'email'){
+				InputObj.attr('placeholder',"请输入邮箱");
+				InputObj.href = '/coupon/get_coupons_by_email/';
+			}else{
+				InputObj.attr('placeholder',"请输兑换码");
+				InputObj.href = '/coupon/verfy_code/';
+			}
+			$(function() {
+				$('#my-prompt').modal({
+					relatedTarget: this,
+					onConfirm: function(e) {
+						var data =type +'='+ e.data;
+						var url = InputObj.href;
+						code_ajax(data,url);
+					}
+				});
+			});
+			
+			function checkEmail(str) {
+				var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+				if (re.test(str)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			$("#email").blur(function() {
+				var email = $(this).val();
+				if (checkEmail(email)) {
+					$(this).parent().addClass('am-form-success');
+				}else{
+					$(this).parent().addClass('am-form-error');
+				}
+			});
+		</script>
+
+		<script src="/static/js/util.js"></script>
+		<script>
+			function code_ajax(data,url) {
+				data = data + '&csrfmiddlewaretoken=' + getCookie('csrftoken');
+				$.ajax({
+					dataType: "json",
+					type: "POST",
+					url: url,
+					data: data,
+					beforeSend: function(XMLHttpRequest) {
+
+					},
+					complete: function(XMLHttpRequest, textStatus) {
+
+					},
+					success: function(data, textStatus) {
+						if (data.result == 'success') {
+								if(data.number == 0){
+									alert('没有次数');
+								}else{
+									$('#count').html(data.number);
+									$('#price').html(data.price);
+								}
+						} else {
+							alert(data.error_message)
+						}
+					},
+					error: function(response) {
+						alert('网络异常!')
+					},
+
+				});
+			}
+		</script>
+	</body>
+
+</html>
