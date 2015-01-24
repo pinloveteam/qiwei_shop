@@ -60,7 +60,22 @@
 							if (data.result == 'success') {
 								window.location.href = data.url
 							} else {
-								alert(data.error_message)
+							     if(typeof(data.error_message)=='object'){
+								     error_message=''
+								    for(var i in data.error_message){
+									 if(i=='email'){
+									  error_message+='顾客邮箱：'+data.error_message[i]+'       '
+									 }else if(i=='password'){
+									  error_message+='商户密码：'+data.error_message[i]+'       '
+									 }
+									}
+									if(error_message.length>0){
+									 alert(error_message)
+									}
+								 }else{
+								    alert(data.error_message)
+								 }
+								
 							}
 						},
 						error: function(response) {

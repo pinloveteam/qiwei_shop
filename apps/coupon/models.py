@@ -26,12 +26,11 @@ class Coupons(models.Model):
 class WinCoupons(models.Model):
     email=models.EmailField(verbose_name=r'邮箱',null=True)
     verif_code=models.CharField(verbose_name=r'验证码',max_length=255)
-    time=models.DateTimeField(verbose_name='时间')
+    time=models.DateTimeField(verbose_name='领取时间')
+    expire_time=models.DateTimeField(verbose_name='领取时间')
     status=models.BooleanField(verbose_name='状态',default=True)
     number=models.IntegerField(verbose_name=r'可分享次数',default=0)
-    def save(self):
-        self.time=datetime.datetime.now()
-        super(WinCoupons, self).save()
+        
     class Meta:
         verbose_name = u'获得优惠券表' 
         verbose_name_plural = u'获得优惠券表'
@@ -40,6 +39,7 @@ class WinCoupons(models.Model):
 class Settings(models.Model):
     buiness_password=models.CharField(verbose_name=r'商户密码',max_length=255)
     share_number =models.IntegerField(verbose_name=r'分享次数',)
+    valid_time=models.IntegerField(verbose_name=r'有效时间长度(天)',)
     class Meta:
         verbose_name = u'设置表' 
         verbose_name_plural = u'设置表'

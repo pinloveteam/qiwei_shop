@@ -17,6 +17,7 @@ from random import randint
 import random
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+import datetime
 
 '''
 获取验证页面
@@ -50,7 +51,9 @@ def verfy_business(request):
                         CouponsUser(email=email,number=0).save()
                     from apps.coupon.method import build_code
                     code=build_code()
-                    winCoupons=WinCoupons(email=email,verif_code=code,number=couponSetings.share_number)
+                    time=datetime.datetime.now()
+                    expire_time=time.replace(day=time.day+couponSetings.valid_time)
+                    winCoupons=WinCoupons(email=email,verif_code=code,number=couponSetings.share_number,time=time,expire_time=expire_time)
                     winCoupons.save()
                     args={'result':'success','url':'%s%s%s'%('/coupon/get_coupon/',code,'/')}
                 else:
@@ -66,8 +69,8 @@ def verfy_business(request):
         json=simplejson.dumps(args)
         return HttpResponse(json, mimetype='application/json')
     except Exception as e:
-        logging.exception('获取验证页面错误')
-        args={'result':'error','error_message':e.message}
+        logging.exception('验证商户密码错误')
+        args={'result':'error','error_message':'验证商户密码错误:'+e.message}
         json=simplejson.dumps(args)
         return HttpResponse(json)
     
@@ -77,11 +80,12 @@ def verfy_business(request):
 def get_coupon(request,code,template_name="code.html"):  
     args={}
     try:
-        args={'code':code}
+        winCoupons=WinCoupons.objects.get(verif_code=code)
+        args={'code':code,'expire_time':winCoupons.expire_time.strftime('%Y年%m月%d日 %H时'),'start_time':winCoupons.time.strftime('%Y年%m月%d日 %H时')}
         return render(request,template_name,args)
     except Exception as e:
         logging.exception('获取兑换码页面错误')
-        args={'result':'error','error_message':e.message}
+        args={'result':'error','error_message':'获取兑换码页面错误:'+e.message}
         return render(request,'error.html',args)
     
 
@@ -128,7 +132,12 @@ def verfy_code(request):
                 args={'result':'error','error_message':u'兑换码错误!'}
                 json=simplejson.dumps(args)
                 return HttpResponse(json)
-            if winCoupons.number<=0:
+            
+            if winCoupons.expire_time.replace(tzinfo=None)<datetime.datetime.now():
+                args={'result':'expire'}
+                json=simplejson.dumps(args)
+                return HttpResponse(json)
+            elif winCoupons.number<=0:
                 args={'result':'success','number':0}
                 json=simplejson.dumps(args)
                 return HttpResponse(json)

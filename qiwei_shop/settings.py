@@ -23,21 +23,25 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Santiago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-CN'
 
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = True 
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
 USE_L10N = True
+ugettext = lambda s: s
+LANGUAGES = (
+    ('zh', ugettext('zh')),
+)
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
@@ -104,15 +108,7 @@ ROOT_URLCONF = 'qiwei_shop.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'qiwei_shop.wsgi.application'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-#     (r'E:/Dropbox/拼爱团队/Coupon/project/templates'),
-)
-templates=['templates',]
-for template in templates:
-    TEMPLATE_DIRS += ((os.path.join(PATH,template).replace('\\','/')),) 
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -164,32 +160,40 @@ DEFAULT_FROM_EMAIL = 'pinloveteam@pinpinlove.com'
 SERVER_EMAIL = 'pinloveteam@pinpinlove.com'
 EMAIL_USE_TLS = True
 
-# 本地环境
+#本地环境
+DATABASES = {
+                                      
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'qiwei_shop',                      # Or path to database file if using sqlite3.
+                                                # The following settings are not used with sqlite3:
+        'USER': 'root',                         #pinloveteam
+        'PASSWORD': 'jin521436',                       #redyellowblue123#
+        'HOST': '',                             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',      
+                                                # Set to empty string for default.
+    }
+}
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    (r'E:/Dropbox/拼爱团队/Coupon/project/templates'),
+)
+# templates=['templates',]
+# for template in templates:
+#     TEMPLATE_DIRS += ((os.path.join(PATH,template).replace('\\','/')),) 
+# 服务器环境
 # DATABASES = {
 #                                      
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
 #         'NAME': 'qiwei_shop',                      # Or path to database file if using sqlite3.
 #                                                 # The following settings are not used with sqlite3:
-#         'USER': 'root',                         #pinloveteam
-#         'PASSWORD': 'jin521436',                       #redyellowblue123#
+#         'USER': 'pinloveteam',                         #pinloveteam
+#         'PASSWORD': 'redyellowblue123#',                       #redyellowblue123#
 #         'HOST': '',                             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
 #         'PORT': '',      
 #                                                 # Set to empty string for default.
 #     }
 # }
-
-# 服务器环境
-DATABASES = {
-                                     
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'qiwei_shop',                      # Or path to database file if using sqlite3.
-                                                # The following settings are not used with sqlite3:
-        'USER': 'pinloveteam',                         #pinloveteam
-        'PASSWORD': 'redyellowblue123#',                       #redyellowblue123#
-        'HOST': '',                             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',      
-                                                # Set to empty string for default.
-    }
-}

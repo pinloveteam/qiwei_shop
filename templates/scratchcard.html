@@ -7,28 +7,9 @@
 		<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />
 		<meta name='viewport' content='user-scalable=0' />
 		<link rel="stylesheet" type="text/css" href="http://cdn.amazeui.org/amazeui/2.1.0/css/amazeui.min.css" />
+		<link rel="stylesheet" href="/static/css/app.css" />
 		<meta name="viewport" content="width=device-width" />
 		<title>刮刮卡</title>
-
-		<style type="text/css">
-			body {
-				background-color: #C0392B;
-			}
-			#redux {
-				position: absolute;
-				height: 150px;
-				z-index: 1;
-			}
-			#robot {
-				margin: 0 auto;
-				height: 150px;
-				width: 300px;
-			}
-			.robot-text {
-				text-align: center;
-				padding-top: 50px;
-			}
-		</style>
 	</head>
 
 	<body>
@@ -41,7 +22,9 @@
 					<div class="am-panel-bd">
 						<div id="robot">
 							<img id="redux" src="/static/img/redux.png" />
-							<div class="robot-text am-text-danger am-text-xxl"><span id="price"></span>元优惠券</div>
+							<center class="robot-bd">
+								<p class="am-text-danger am-text-xxl"><span id="price"></span>元优惠券</p>
+							</center>
 						</div>
 					</div>
 				</div>
@@ -56,9 +39,9 @@
 					</div>
 					<div class="am-panel-bd">
 						<p>
-							1....
-							<br /> 2....
-							<br /> 3....
+							1.该兑换码仅适用圣地亚哥奇味麻辣香锅店<br />
+							2.该兑换码抽取的代金券不找零、不兑现、不与其他优惠共享<br />
+							3.本活动最终解释权归奇味麻辣香锅所有<br />
 						</p>
 					</div>
 				</div>
@@ -81,7 +64,7 @@
 		<script src="http://cdn.amazeui.org/amazeui/2.1.0/js/amazeui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src='/static/js/jquery.eraser.js' type='text/javascript'></script>
 		<script type="text/javascript">
-			addEventListener("load", init, false);
+			
 			function init(event) {
 				$("#redux").eraser();
 			}
@@ -102,7 +85,7 @@
 						var data =type +'='+ e.data;
 						var url = InputObj.href;
 						code_ajax(data,url);
-					}
+					},closeViaDimmer:false
 				});
 			});
 			
@@ -146,8 +129,12 @@
 								}else{
 									$('#count').html(data.number);
 									$('#price').html(data.price);
+									init();
 								}
-						} else {
+						} else if(data.result =='expire'){
+						   alert('该兑换码已过期!');
+						}
+                   		else{
 							alert(data.error_message)
 						}
 					},
