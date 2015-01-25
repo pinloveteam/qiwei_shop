@@ -153,27 +153,32 @@ LOGGING = {
     }
 }
 
+# Host for sending e-mail.
+EMAIL_HOST = 'smtp.webfaction.com'
 
+
+# Port for sending e-mail.
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'pinloveteam'
 EMAIL_HOST_PASSWORD = 'redyellowblue123#'
-DEFAULT_FROM_EMAIL = 'pinloveteam@pinpinlove.com'
-SERVER_EMAIL = 'pinloveteam@pinpinlove.com'
+DEFAULT_FROM_EMAIL = 'pinloveteam@mlxgsd.com'
+SERVER_EMAIL = 'pinloveteam@mlxgsd.com'
 EMAIL_USE_TLS = True
 
 #本地环境
-# DATABASES = {
-#                                       
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-#         'NAME': 'qiwei_shop',                      # Or path to database file if using sqlite3.
-#                                                 # The following settings are not used with sqlite3:
-#         'USER': 'root',                         #pinloveteam
-#         'PASSWORD': 'jin521436',                       #redyellowblue123#
-#         'HOST': '',                             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#         'PORT': '',      
-#                                                 # Set to empty string for default.
-#     }
-# }
+DATABASES = {
+                                       
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'qiwei_shop',                      # Or path to database file if using sqlite3.
+                                                # The following settings are not used with sqlite3:
+        'USER': 'root',                         #pinloveteam
+        'PASSWORD': 'jin521436',                       #redyellowblue123#
+        'HOST': '',                             # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',      
+                                                # Set to empty string for default.
+    }
+}
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
@@ -185,7 +190,7 @@ for template in templates:
     TEMPLATE_DIRS += ((os.path.join(PATH,template).replace('\\','/')),) 
 #服务器环境
 DATABASES = {
-                                      
+                                       
     'default': {
         'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'qiwei_shop',                      # Or path to database file if using sqlite3.
