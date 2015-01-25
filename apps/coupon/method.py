@@ -96,10 +96,10 @@ def random_str(randomlength=10):
 发送邮件
 '''
 def send_email(email):
-    email_message= u'恭喜你获得麻辣香锅抽奖机会'
+    email_message=u'由于您推荐的好友在本店消费，我们特为提供麻辣香锅抽奖机会，详情可到店内咨询!' 
     try :
        from django.core.mail import send_mail
        from django.conf.global_settings import DEFAULT_FROM_EMAIL
-       send_mail(u'恭喜你获得麻辣香锅抽奖机会', email_message,DEFAULT_FROM_EMAIL,email) 
+       send_mail(u'恭喜你获得奇味麻辣香锅抽奖机会', email_message,DEFAULT_FROM_EMAIL,[email,]) 
     except Exception as e:
         raise 

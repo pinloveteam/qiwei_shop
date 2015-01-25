@@ -148,8 +148,8 @@ def verfy_code(request):
                 couponsUser=CouponsUser.objects.get(email=winCoupons.email)
                 couponsUser.number=couponsUser.number+1
                 couponsUser.save()
-#                 from apps.coupon.method import send_email
-#                 send_email(email)
+                from apps.coupon.method import send_email
+                send_email(winCoupons.email)
                 #send_email()
             winCoupons.save() 
             price=get_coupons()
@@ -173,7 +173,12 @@ def get_coupons_by_email(request):
     try:
         if request.is_ajax():
             email=request.POST.get('email').rstrip()
-            couponsUser=CouponsUser.objects.get(email=email)
+            if CouponsUser.objects.filter(email=email).exists():
+                couponsUser=CouponsUser.objects.get(email=email)
+            else:
+                args={'result':'error','error_message':'邮箱不存在!'}
+                json=simplejson.dumps(args)
+                return HttpResponse(json)
             number=couponsUser.number
             if number<=0:
                 args={'result':'success','number':0}
