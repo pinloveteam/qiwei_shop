@@ -52,7 +52,7 @@ def verfy_business(request):
                     from apps.coupon.method import build_code
                     code=build_code()
                     time=datetime.datetime.now()
-                    expire_time=time.replace(day=time.day+couponSetings.valid_time)
+                    expire_time=time+datetime.timedelta(days=couponSetings.valid_time)
                     winCoupons=WinCoupons(email=email,verif_code=code,number=couponSetings.share_number,time=time,expire_time=expire_time)
                     winCoupons.save()
                     args={'result':'success','url':'%s%s%s'%('/coupon/get_coupon/',code,'/')}
