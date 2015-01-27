@@ -7,14 +7,14 @@
 		<meta name='viewport' content='initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' />
 		<meta name='viewport' content='user-scalable=0' />
 		<link rel="stylesheet" type="text/css" href="http://cdn.amazeui.org/amazeui/2.1.0/css/amazeui.min.css" />
-		<link type="image/x-icon" href="http://jeffreyjin.com/wp-content/themes/agentpress/images/favicon.ico" rel="Shortcut Icon">
 		<link rel="stylesheet" href="/static/css/app.css" />
 		<meta name="viewport" content="width=device-width" />
-		<title>你的朋友邀请你去奇味用餐啦！点击链接获取优惠券</title>
+		<title>兑换码</title>
 	</head>
 
 	<body>
 		<div class="am-g">
+			<img src="/static/img/1.png"/>
 			<div class="am-u-sm-12">
 				<div class="am-panel am-panel-danger">
 					<div class="am-panel-hd">
@@ -23,10 +23,9 @@
 					<div class="am-panel-bd">
 						<div id="robot">
 							<center class="robot-bd">
-								<p class="robot-text am-text-danger am-text-xxl">兑换码</p>
 								<p class="am-text-xxl">{{code}}</p>
 							</center>
-							
+
 						</div>
 					</div>
 				</div>
@@ -34,19 +33,17 @@
 			</div>
 		</div>
 		<div class="am-g">
-			<div class="am-u-sm-12">
-				<div class="am-panel am-panel-danger">
-					<div class="am-panel-hd">
-						<h3 class="am-panel-title">兑换说明</h3>
-					</div>
-					<div class="am-panel-bd">
-						<p>
-							1.该兑换码有效时间为{{start_time}}至{{expire_time}} ，请在有效期内到店兑换<br />
-							2.该兑换码仅适用圣地亚哥奇味麻辣香锅店<br />
-							3.该兑换码抽取的代金券不找零、不兑现、不与其他优惠共享<br />
-							4.本活动最终解释权归奇味麻辣香锅所有<br />
-						</p>
-					</div>
+			<div class="am-u-sm-12" style="color: #fff;">
+				<div class="am-panel-hd">
+					<h3 class="am-panel-title">兑换说明：</h3>
+				</div>
+				<div class="am-panel-bd">
+					<p>
+						1.该兑换码有效时间为{{start_time}}至{{expire_time}} ，请在有效期内到店兑换。
+						<br /> 2.该兑换码仅适用圣地亚哥奇味麻辣香锅店。
+						<br /> 2.该兑换码抽取的代金券不找零、不兑现、不可以和别的优惠券同时使用（cash九折除外）。
+						<br /> 4.本活动最终解释权归奇味麻辣香锅所有。
+					</p>
 				</div>
 			</div>
 		</div>
@@ -92,7 +89,7 @@
 				event.preventDefault();
 			}*/
 		</script>
-	 
+
 
 	</body>
 
