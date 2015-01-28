@@ -81,7 +81,7 @@ def get_coupon(request,code,template_name="code.html"):
     args={}
     try:
         winCoupons=WinCoupons.objects.get(verif_code=code)
-        args={'code':code,'expire_time':winCoupons.expire_time.strftime('%Y年%m月%d日 %H时'),'start_time':winCoupons.time.strftime('%Y年%m月%d日 %H时')}
+        args={'code':code,'expire_time':winCoupons.expire_time.strftime('%Y年%m月%d日%H时'),'start_time':winCoupons.time.strftime('%Y年%m月%d日%H时')}
         return render(request,template_name,args)
     except Exception as e:
         logging.exception('获取兑换码页面错误')
