@@ -96,7 +96,7 @@ def random_str(randomlength=10):
 发送邮件
 '''
 def send_email(email):
-    email_message=u'由于您推荐的好友在本店消费，我们特为提供麻辣香锅抽奖机会，详情可到店内咨询!' 
+    email_message=u'由于您推荐的好友在本店消费，您获得了一次奇味香锅代金券的抽奖机会，具体使用方法请到店里用餐时咨询.' 
     try :
        from django.core.mail import send_mail
        from qiwei_shop.settings import DEFAULT_FROM_EMAIL
